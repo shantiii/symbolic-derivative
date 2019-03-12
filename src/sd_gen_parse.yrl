@@ -41,8 +41,10 @@ gen_tests(TestFun) ->
      {"2", {const, 2}},
      {"x", {variable, $x}},
      {"-x", {'*', {const, -1}, {variable, $x}}},
+     {"x^-2", {'^', {variable, $x}, {'*', {const, -1}, {const, 2}}}},
      {"2+3", {'+', {const, 2}, {const, 3}}},
-     {"1-2-3-x", {'-', {'-', {'-', {const, 1}, {const, 2}}, {const, 3}}, {variable, $x}}}
+     {"1-2-3-x", {'-', {'-', {'-', {const, 1}, {const, 2}}, {const, 3}}, {variable, $x}}},
+     {"2+3*x", {'+', {const, 2}, {'*', {const, 3}, {variable, $x}}}}
     ],
     lists:map(Helper, Tests).
 
