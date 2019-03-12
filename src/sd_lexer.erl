@@ -33,7 +33,7 @@ do_tokenize(<<Char, _Rest/binary>> = Str, State, Acc) when ?is_digit(Char) ->
     {Number, Rest} = read_number(Str, 0),
     do_tokenize(Rest, State, [{const, Number} | Acc]);
 do_tokenize(<<Char, Rest/binary>>, State, Acc) when ?is_alpha(Char) ->
-    do_tokenize(Rest, State, [{variable, Char - $a} | Acc]);
+    do_tokenize(Rest, State, [{variable, Char} | Acc]);
 do_tokenize(<<$+, Rest/binary>>, State, Acc) -> do_tokenize(Rest, State, [plus | Acc]);
 do_tokenize(<<$-, Rest/binary>>, State, Acc) -> do_tokenize(Rest, State, [minus | Acc]);
 do_tokenize(<<$*, Rest/binary>>, State, Acc) -> do_tokenize(Rest, State, [times | Acc]);
@@ -49,3 +49,17 @@ do_tokenize(<<$\n, Rest/binary>>, State, Acc) -> do_tokenize(Rest, State, Acc).
 read_number(<<>>, Acc) -> {Acc, <<>>};
 read_number(<<Char/utf8, Rest/binary>>, Acc) when ?is_digit(Char) -> read_number(Rest, Acc * 10 + (Char - $0));
 read_number(<<_Char/utf8, _Rest/binary>> = Str, Acc) -> {Acc, Str}.
+
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+tokenize_test_() ->
+    Helper = fun({Input, Expected}) -> ?_assertEqual({ok, Expected}, tokenize(Input)) end,
+    Tests =
+    [
+     {"2", [{const, 2}]},
+     {"x", [{variable, $x}]}
+    ],
+    lists:map(Helper, Tests).
+
+-endif.
