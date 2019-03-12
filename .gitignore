@@ -1,4 +1,4 @@
-.rebar3
+/.rebar3
 _*
 .eunit
 *.o
@@ -10,9 +10,12 @@ _*
 ebin
 log
 erl_crash.dump
-.rebar
+/.rebar
 logs
-_build
+/_build
 .idea
 *.iml
 rebar3.crashdump
+
+# compiled source files
+/src/sd_gen_*.erl

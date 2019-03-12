@@ -11,6 +11,14 @@ Build
 
     $ rebar3 escriptize
 
+Test
+----
+
+To run the [EUnit tests](http://erlang.org/doc/apps/eunit/chapter.html), just
+run the following command:
+
+    $ rebar3 eunit
+
 Run
 ---
 
